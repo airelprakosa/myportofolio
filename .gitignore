@@ -15,3 +15,5 @@ env/
 
 # Backup files
 *.bak
+
+staticfiles/

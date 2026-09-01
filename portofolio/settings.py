@@ -27,7 +27,6 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1", "raden-stanislaus-myportofolio.pws.cs
 PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true'
 
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
@@ -36,8 +35,6 @@ SECRET_KEY = 'django-insecure-5w%q(7tumpiqt-yo#fmvif-p^zbg07z927f(o7xhxz(5rp$3=1
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -143,7 +140,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Email
@@ -152,6 +150,15 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 MAILERS = {
     'default': {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+    },
+}
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
     },
 }
 
