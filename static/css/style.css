@@ -11,13 +11,18 @@
     --accent-dark: #a8442a;
     --line: #2b2b2b;
     --text-muted: #a3a3a3;
-    --radius: 4px;
+    --radius: 4px;  
 }
 
 body {
     font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: var(--ink);
-    background-color: var(--paper);
+    /* Kombinasi overlay gelap transparan + file gambar background kamu */
+    background-image: linear-gradient(rgba(18, 18, 18, 0.85), rgba(18, 18, 18, 0.85)), url('/static/img/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
     line-height: 1.6;
 }
 
@@ -43,21 +48,36 @@ h1, .brand {
 }
 
 .brand {
-    font-size: 1.3rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: var(--ink);
     text-decoration: none;
+    background-color: var(--accent);
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    letter-spacing: -0.01em;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.brand:hover {
+    background-color: var(--accent-dark);
+    transform: scale(1.03);
 }
 
 .site-header nav {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 .site-header nav a {
     color: var(--ink);
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.site-header nav a:hover {
+    color: var(--accent);
 }
 
 .hero {
@@ -94,7 +114,28 @@ h1, .brand {
     font-size: clamp(3rem, 7vw, 5rem);
     line-height: 0.95;
 }
+/* Hero Floating Card Container */
+.hero-card {
+    background-color: #171717;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
 
+.hero-kicker {
+    display: inline-block;
+    background-color: rgba(217, 93, 57, 0.15);
+    color: var(--accent);
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    border: 1px solid rgba(217, 93, 57, 0.3);
+}
 .bio {
     color: var(--text-muted);
     max-width: 480px;
@@ -174,6 +215,131 @@ h1, .brand {
     color: var(--text-muted);
     font-size: 0.85rem;
     border-top: 1px solid var(--line);
+}
+/* Background & Skills Section */
+.background-section {
+    padding: 4rem 0 5rem;
+    border-top: 1px solid var(--line);
+}
+
+.background-section h2 {
+    font-family: "Space Grotesk", -apple-system, sans-serif;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--ink);
+}
+
+.bg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.bg-card {
+    background-color: #1e1e1e;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.bg-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    border-color: var(--accent);
+}
+
+.bg-card h3 {
+    font-family: "Space Grotesk", -apple-system, sans-serif;
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+}
+
+.bg-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Card Container Style */
+.content-card {
+    background-color: #171717;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+.content-card h2 {
+    font-family: "Space Grotesk", -apple-system, sans-serif;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--ink);
+}
+
+/* Education Rows */
+.edu-item {
+    padding-bottom: 1.75rem;
+    margin-bottom: 1.75rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.edu-item:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.edu-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.edu-logo {
+    height: 48px;
+    width: 48px;
+    object-fit: contain;
+    flex-shrink: 0;
+} 
+
+.edu-header h3 {
+    font-family: "Space Grotesk", -apple-system, sans-serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin-bottom: 0.1rem;
+}
+
+.edu-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+.edu-year {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.edu-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    padding-left: 3.25rem;
+}
+
+@media (max-width: 600px) {
+    .content-card {
+        padding: 2rem 1.25rem;
+    }
+    .edu-desc {
+        padding-left: 0;
+        margin-top: 0.5rem;
+    }
 }
 
 @media (max-width: 600px) {

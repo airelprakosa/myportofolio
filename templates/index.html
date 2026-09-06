@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raden Stanislaus Airell Prakosa Sinaga - Portfolio</title>
+    <title>Airell - Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -11,45 +11,83 @@
 </head>
 <body>
     <header class="site-header">
-        <div class="container">
+        <div class="container site-nav-container">
             <a href="#profile" class="brand">Airell</a>
-            <nav>
+            <nav class="nav-menu">
                 <a href="#profile">Profile</a>
+                <a href="#about-me">About Me</a>
             </nav>
         </div>
     </header>
 
     <main>
         <section class="hero" id="profile">
-            <div class="container hero-grid">
-                <div class="hero-identity">
-                    <p class="hero-kicker">Information Systems &middot; Universitas Indonesia</p>
-                    <h1>Raden Stanislaus Airell Prakosa Sinaga</h1>
-                </div>
-                <div class="hero-photo">
-                    <div class="photo-block"></div>
-                    <img class="avatar" src="/static/img/airell.jpeg" alt="Photo of Airell">
-                </div>
-                <div class="hero-details">
-                    <p class="bio">Information Systems student at Universitas Indonesia exploring UI/UX design, keeping up with gym routines, and navigating through campus life.</p>
-                    <dl class="meta-list">
-                        <div class="meta-row">
-                            <dt>NPM</dt>
-                            <dd>2506657251</dd>
+            <div class="container">
+                <div class="hero-card">
+                    <div class="hero-grid">
+                        <div class="hero-identity">
+                            <p class="hero-kicker">Information Systems &middot; Universitas Indonesia</p>
+                            <h1>airell</h1>
                         </div>
-                        <div class="meta-row">
-                            <dt>Program</dt>
-                            <dd>S1 Sistem Informasi</dd>
+                        <div class="hero-photo">
+                            <div class="photo-block"></div>
+                            <img class="avatar" src="/static/img/airell.jpeg" alt="Photo of Airell">
                         </div>
-                    </dl>
-                    <div class="social-links">
-                        <a href="https://github.com/airelprakosa" class="social-link">GitHub</a>
-                        <a href="https://linkedin.com/" class="social-link">LinkedIn</a>
-                        <a href="mailto:raden.stanislaus@ui.ac.id" class="social-link">Email</a>
+                        <div class="hero-details">
+                            <p class="bio">Information Systems student at Universitas Indonesia exploring UI/UX design, keeping up with gym routines, and navigating through campus life.</p>
+                            <dl class="meta-list">
+                                <div class="meta-row">
+                                    <dt>NPM</dt>
+                                    <dd>2506657251</dd>
+                                </div>
+                                <div class="meta-row">
+                                    <dt>Program</dt>
+                                    <dd>S1 Sistem Informasi</dd>
+                                </div>
+                            </dl>
+                            <div class="social-links">
+                                <a href="https://github.com/airelprakosa" class="social-link">GitHub</a>
+                                <a href="https://linkedin.com/" class="social-link">LinkedIn</a>
+                                <a href="mailto:raden.stanislaus@ui.ac.id" class="social-link">Email</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <section class="background-section" id="about-me">
+        <div class="container">
+            <div class="content-card">
+                <h2>Education</h2>
+                
+                <div class="edu-item">
+                    <div class="edu-header">
+                        <img class="edu-logo" src="/static/img/ui.png" alt="Universitas Indonesia">
+                        <div>
+                            <h3>Universitas Indonesia</h3>
+                            <span class="edu-label">Period</span>
+                            <p class="edu-year">2025 — Present</p>
+                        </div>
+                    </div>
+                    <p class="edu-desc">Pursuing a Bachelor's degree in Information Systems, learning and developing skills everyday.</p>
+                </div>
+
+                <div class="edu-item">
+                    <div class="edu-header">
+                        <img class="edu-logo" src="/static/img/tarki.png" alt="Tarakanita Gading Serpong">
+                        <div>
+                            <h3>SMA Tarakanita Gading Serpong</h3>
+                            <span class="edu-label">Period</span>
+                            <p class="edu-year">2022 — 2025</p>
+                        </div>
+                    </div>
+                    <p class="edu-desc">Completed high school education, building a strong foundation in academics and activities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     </main>
 
     <footer class="site-footer">
