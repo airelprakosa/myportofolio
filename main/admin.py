@@ -3,3 +3,4 @@ from .models import Experience, Project  # Tambahkan Education ke sini kalau lu 
 
 admin.site.register(Experience)
 admin.site.register(Project)
+admin.site.register(skills)
