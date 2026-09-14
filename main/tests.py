@@ -37,8 +37,17 @@ class MainTest(TestCase):
         self.assertTemplateUsed(response, "experience.html")
         self.assertContains(response, self.experience.title)
 
-    def test_projects_page(self):
+    def test_projects_page_with_data(self):
         response = self.client.get(reverse("main:show_projects"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "projects.html")
         self.assertContains(response, self.project.title)
+
+    def test_projects_page_empty(self):
+        # Menghapus data sementara untuk skenario test kosong
+        Project.objects.all().delete()
+        response = self.client.get(reverse("main:show_projects"))
+        self.assertEqual(response.status_code, 200)
+        
+        # statement coba aja blm ada update jika skenario kosong
+        self.assertContains(response, "Belum ada proyek yang ditambahkan.")
