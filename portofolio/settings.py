@@ -166,3 +166,9 @@ STORAGES = {
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 WHITENOISE_USE_FINDERS = True
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://raden-stanislaus-myportofolio.pws.cs.ui.ac.id",
+]
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
