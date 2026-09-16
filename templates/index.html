@@ -1,109 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ name }} Portofolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-    <header class="site-header">
-        <div class="container site-nav-container">
-            <a href="{% url 'main:show_main' %}#profile" class="brand">{{ name }}</a>
-            <nav class="nav-menu">
-                <a href="{% url 'main:show_main' %}#profile">Profile</a>
-                <a href="{% url 'main:show_main' %}#about-me">About Me</a>
-                <a href="{% url 'main:show_skills' %}">Skills</a>
-                <a href="{% url 'main:show_experience' %}">Experience</a>
-                <a href="{% url 'main:show_projects' %}">Projects</a>
-            </nav>
-        </div>
-    </header>
+{% extends 'base.html' %}
 
-    <main>
-        <section class="hero" id="profile">
-            <div class="container">
-                <div class="hero-card">
-                    <div class="hero-grid">
-                        <div class="hero-identity">
-                            <p class="hero-kicker">Information Systems &middot; Universitas Indonesia</p>
-                            <h1>{{ name }}</h1>
-                        </div>
-                        <div class="hero-photo">
-                            <div class="photo-frame"></div>
-                            <img class="avatar-cutout" src="/static/img/rell.png" alt="Photo of {{ name }}">
-                        </div>
-                        <div class="hero-details">
-                            <p class="bio">{{ bio }}</p>
-                            <dl class="meta-list">
-                                <div class="meta-row">
-                                    <dt>NPM</dt>
-                                    <dd>{{ npm }}</dd>
-                                </div>
-                                <div class="meta-row">
-                                    <dt>Program</dt>
-                                    <dd>{{ study_program }}</dd>
-                                </div>
-                            </dl>
-                            <div class="social-links">
-                                <a href="https://github.com/airelprakosa" class="social-link">GitHub</a>
-                                <a href="https://linkedin.com/" class="social-link">LinkedIn</a>
-                                <a href="mailto:raden.stanislaus@ui.ac.id" class="social-link">Email</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="background-section" id="about-me">
-            <div class="container">
-                <h2>About Me</h2>
-                <div class="content-card">
-                    <h2>Education</h2>
-                    <div class="edu-item">
-                        <div class="edu-header">
-                            <img class="edu-logo" src="/static/img/ui.png" alt="">
-                            <div>
-                                <h3>Universitas Indonesia</h3>
-                                <span class="edu-label">Science</span>
-                                <p class="edu-year">2025 — Present</p>
-                            </div>
-                        </div>
-                        <p class="edu-desc">Pursuing a Bachelor's degree in Information Systems, learning and developing skills everyday.</p>
-                    </div>
-                    <div class="edu-item">
-                        <div class="edu-header">
-                            <img class="edu-logo" src="/static/img/trki.png" alt="">
-                            <div>
-                                <h3>SMA Tarakanita Gading Serpong</h3>
-                                <p class="edu-year">2022 — 2025</p>
-                            </div>
-                        </div>
-                        <p class="edu-desc">Completed high school education, building a strong foundation in academics and activities.</p>
-                    </div>
-                    <div class="edu-item">
-                        <div class="edu-header">
-                            <img class="edu-logo" src="/static/img/trki.png" alt="">
-                            <div>
-                                <h3>SMP Tarakanita Gading Serpong</h3>
-                                <p class="edu-year">2019 — 2022</p>
-                            </div>
-                        </div>
-                        <p class="edu-desc">Completed junior high school education, building a strong foundation in academics and extracurricular activities.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="site-footer">
+{% block content %}
+<main>
+    <section class="hero" id="profile">
         <div class="container">
-            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
+            <div class="hero-card">
+                <div class="hero-grid">
+                    <div class="hero-identity">
+                        <p class="hero-kicker">Information Systems &middot; Universitas Indonesia</p>
+                        <h1>{{ name }}</h1>
+                    </div>
+                    <div class="hero-photo">
+                        <div class="photo-frame"></div>
+                        <img class="avatar-cutout" src="/static/img/rell.png" alt="Photo of {{ name }}">
+                    </div>
+                    <div class="hero-details">
+                        <p class="bio">{{ bio }}</p>
+                        <dl class="meta-list">
+                            <div class="meta-row">
+                                <dt>NPM</dt>
+                                <dd>{{ npm }}</dd>
+                            </div>
+                            <div class="meta-row">
+                                <dt>Program</dt>
+                                <dd>{{ study_program }}</dd>
+                            </div>
+                        </dl>
+                        <div class="social-links">
+                            <a href="https://github.com/airelprakosa" class="social-link">GitHub</a>
+                            <a href="https://linkedin.com/" class="social-link">LinkedIn</a>
+                            <a href="mailto:raden.stanislaus@ui.ac.id" class="social-link">Email</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
-</body>
-</html>
+    </section>
+
+    <section class="background-section" id="about-me">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="content-card">
+                <h2>Education</h2>
+                <div class="edu-item">
+                    <div class="edu-header">
+                        <img class="edu-logo" src="/static/img/ui.png" alt="">
+                        <div>
+                            <h3>Universitas Indonesia</h3>
+                            <span class="edu-label">Science</span>
+                            <p class="edu-year">2025 — Present</p>
+                        </div>
+                    </div>
+                    <p class="edu-desc">Pursuing a Bachelor's degree in Information Systems, learning and developing skills everyday.</p>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-header">
+                        <img class="edu-logo" src="/static/img/trki.png" alt="">
+                        <div>
+                            <h3>SMA Tarakanita Gading Serpong</h3>
+                            <p class="edu-year">2022 — 2025</p>
+                        </div>
+                    </div>
+                    <p class="edu-desc">Completed high school education, building a strong foundation in academics and activities.</p>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-header">
+                        <img class="edu-logo" src="/static/img/trki.png" alt="">
+                        <div>
+                            <h3>SMP Tarakanita Gading Serpong</h3>
+                            <p class="edu-year">2019 — 2022</p>
+                        </div>
+                    </div>
+                    <p class="edu-desc">Completed junior high school education, building a strong foundation in academics and extracurricular activities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}
