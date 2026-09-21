@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     
     {% block meta %} {% endblock meta %}
 </head>
@@ -18,7 +18,7 @@
             <nav class="nav-menu">
                 <a href="{% url 'main:show_main' %}#profile">Profile</a>
                 <a href="{% url 'main:show_main' %}#about-me">About Me</a>
-                <a href="{% url 'main:show_main' %}#skills">Skills</a>
+                <a href="{% url 'main:show_skills' %}">Skills</a>
                 <a href="{% url 'main:show_experience' %}">Experience</a>
                 <a href="{% url 'main:show_projects' %}">Projects</a>
             </nav>
