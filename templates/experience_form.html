@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+    <section class="background-section" style="padding-top: 5rem; min-height: 100vh;">
+        <div class="container" style="max-width: 600px; margin: 0 auto; background: var(--surface); padding: 2rem; border-radius: 8px;">
+            <h2 style="margin-bottom: 1.5rem; text-align: center;">
+                {% if experience_id %}Edit{% else %}Tambah{% endif %} Pengalaman
+            </h2>
+            
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+                
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                    <button type="submit" class="button">Simpan</button>
+                    <a href="{% url 'main:show_experience' %}" class="button" style="background-color: var(--text-muted); color: var(--background);">Batal</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock content %}

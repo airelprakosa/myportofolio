@@ -3,7 +3,7 @@ from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from main.models import Experience, Project, Skill
-from main.forms import ProjectForm
+from main.forms import ProjectForm,ExperienceForm
 
 def show_main(request):
     context = {
@@ -72,3 +72,46 @@ def delete_project(request, project_id):
         messages.success(request, "Project berhasil dihapus!")
         return redirect("main:show_projects")
     return redirect("main:show_projects")
+
+def get_experiences_json(request):
+    experiences = Experience.objects.all()
+    experiences_json = serializers.serialize("json", experiences)
+    return HttpResponse(experiences_json, content_type="application/json")
+
+def create_experience(request):
+    form = ExperienceForm(request.POST or None)
+    
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Pengalaman baru berhasil ditambahkan!")
+        return redirect("main:show_experience")
+        
+    context = {
+        "name": "Raden Stanislaus Airell P.S",
+        "form": form,
+    }
+    return render(request, "experience_form.html", context)
+
+def update_experience(request, experience_id):
+    experience = get_object_or_404(Experience, pk=experience_id)
+    form = ExperienceForm(request.POST or None, instance=experience)
+    
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Pengalaman berhasil diperbarui!")
+        return redirect("main:show_experience")
+        
+    context = {
+        "name": "Raden Stanislaus Airell P.S",
+        "form": form,
+        "experience_id": experience_id,
+    }
+    return render(request, "experience_form.html", context)
+
+def delete_experience(request, experience_id):
+    experience = get_object_or_404(Experience, pk=experience_id)
+    if request.method == "POST":
+        experience.delete()
+        messages.success(request, "Pengalaman berhasil dihapus!")
+        return redirect("main:show_experience")
+    return redirect("main:show_experience")
