@@ -115,3 +115,15 @@ def delete_experience(request, experience_id):
         messages.success(request, "Pengalaman berhasil dihapus!")
         return redirect("main:show_experience")
     return redirect("main:show_experience")
+
+def get_experiences_xml(request):
+    experiences = Experience.objects.all()
+    return HttpResponse(serializers.serialize("xml", experiences), content_type="application/xml")
+
+def get_experiences_json_by_id(request, experience_id):
+    experience = Experience.objects.filter(pk=experience_id)
+    return HttpResponse(serializers.serialize("json", experience), content_type="application/json")
+
+def get_experiences_xml_by_id(request, experience_id):
+    experience = Experience.objects.filter(pk=experience_id)
+    return HttpResponse(serializers.serialize("xml", experience), content_type="application/xml")

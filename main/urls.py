@@ -2,20 +2,20 @@ from django.urls import path
 from main.views import (
     show_main, show_experience, show_projects, show_skills, 
     create_project, get_projects_json, delete_project,
-    create_experience, update_experience, delete_experience, get_experiences_json
+    create_experience, update_experience, delete_experience, 
+    get_experiences_json, get_experiences_xml, get_experiences_json_by_id, get_experiences_xml_by_id
 )
 
 app_name = 'main'
 
 urlpatterns = [
-path('', show_main, name='show_main'),
+    path('', show_main, name='show_main'),
     
     # routing experience
     path('experience/', show_experience, name='show_experience'),
     path('experience/add/', create_experience, name='create_experience'),
     path('experience/<uuid:experience_id>/edit/', update_experience, name='update_experience'),
     path('experience/<uuid:experience_id>/delete/', delete_experience, name='delete_experience'),
-    path('api/experiences/', get_experiences_json, name='get_experiences_json'),
     
     # routing project
     path('projects/', show_projects, name='show_projects'),
@@ -25,4 +25,10 @@ path('', show_main, name='show_main'),
     
     # routing skills
     path('skills/', show_skills, name='show_skills'),
+    
+    # Endpoint Data Delivery Experience
+    path('xml/experiences/', get_experiences_xml, name='get_experiences_xml'),
+    path('json/experiences/', get_experiences_json, name='get_experiences_json'),
+    path('xml/experiences/<uuid:experience_id>/', get_experiences_xml_by_id, name='get_experiences_xml_by_id'),
+    path('json/experiences/<uuid:experience_id>/', get_experiences_json_by_id, name='get_experiences_json_by_id'),
 ]
