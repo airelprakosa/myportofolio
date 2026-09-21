@@ -36,3 +36,17 @@ contohnya, Ketika saya menambahkan atribut `is_completed = models.BooleanField(d
 Dalam penyelesaian Tugas 2 ini, saya memanfaatkan alat bantu AI (Gemini) untuk membantu memahami alur pendaftaran model ke Django Admin, konfigurasi `CSRF_TRUSTED_ORIGINS` agar terhindar dari *error* 403 saat *deployment* ke PWS, serta menyusun skenario *Unit Test* tambahan di file `tests.py`.
 
 Terdapat kendala saat menyusun pengujian untuk skenario *empty state* pada halaman proyek. AI awalnya menyarankan untuk menguji string `self.assertContains(response, "Belum ada project")`. Namun, parameter tersebut tidak sinkron dengan *template* `projects.html` saya yang sebenarnya menggunakan kalimat "Belum ada proyek yang ditambahkan.", sehingga tes tidak bisa berjalan valid. Saya kemudian mengevaluasi dan memperbaiki masalah ini secara mandiri dengan menyamakan string pada kode pengujian di `tests.py` dengan teks asli yang ada di dalam kondisi `{% empty %}` pada *template* HTML, sehingga seluruh *unit test* berhasil berstatus `OK`.
+
+### tugas 3
+
+### AI Disclosure
+Dalam penyelesaian Tugas 3 ini, saya memanfaatkan referensi video tutorial Django dari Corey Schafer (Part 10 - Create, Update, and Delete Posts) dan alat bantu AI chatGPT untuk memahami konsep *routing*, pengelolaan form (CRUD), serta pembuatan *endpoint* Data Delivery (JSON/XML).
+
+sumber belajar dan pemahaman: https://www.youtube.com/watch?v=-s7e_Fy6NRU, gpt: https://chatgpt.com/share/6ab0f55a-89a8-83ec-8507-076757f0109e
+
+1.Kita menggunakan `ModelForm` karena ia secara otomatis membuat input *field* HTML berdasarkan model yang sudah ada di `models.py`, lengkap dengan validasi datanya. Ini jauh lebih efisien dibandingkan membuat form HTML manual yang mengharuskan kita mengecek tipe data dan memetakan input ke *database* satu per satu. Sementara itu, `{% csrf_token %}` wajib ditambahkan sebagai mekanisme keamanan bawaan Django untuk mencegah serangan *Cross-Site Request Forgery*. Token ini memastikan bahwa data yang dikirimkan melalui form benar-benar berasal dari pengguna sah di situs web kita, bukan dari *script* atau situs pihak ketiga yang berniat jahat.
+
+2.JSON lebih disukai karena sintaksnya jauh lebih ringan dan ringkas. Berbeda dengan XML yang membutuhkan tag pembuka dan penutup yang panjang (seperti `<nama>Airell</nama>`), JSON menggunakan format *key-value* yang sederhana (`"nama": "Airell"`), sehingga ukuran *file*-nya lebih kecil dan transfer datanya lebih cepat. Selain itu, JSON terintegrasi secara *native* dengan JavaScript, sehingga *frontend* dapat langsung memproses (*parsing*) data JSON tanpa memerlukan *library* tambahan yang rumit.
+
+3.Alurnya dimulai saat ada *request* ke URL tertentu, lalu *routing* akan mengarahkannya ke fungsi *view* yang bersesuaian. Di dalam *view*, Django menggunakan ORM untuk mengambil data portofolio dari *database* (berupa *QuerySet*). *QuerySet* tersebut kemudian dilempar ke fungsi *serializer* untuk diubah menjadi format JSON. Setelah selesai, *view* akan membungkus data JSON tersebut ke dalam `HttpResponse` dan mengirimkannya kembali ke pengguna.
+Proses *serialization* sangat perlu dilakukan karena data yang diambil dari *database* Django berbentuk objek Python (*QuerySet*). Jaringan internet (protokol HTTP) tidak mengerti cara membaca objek Python secara langsung; ia hanya bisa mentransmisikan data dalam bentuk teks (seperti JSON atau XML). Oleh karena itu, *serialization* berfungsi sebagai penerjemah objek kompleks Django menjadi teks terstruktur yang bisa dibaca dan dikirim melalui internet.
