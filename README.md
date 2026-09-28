@@ -50,3 +50,9 @@ sumber belajar dan pemahaman: https://www.youtube.com/watch?v=-s7e_Fy6NRU, gpt: 
 
 3.Alurnya dimulai saat ada *request* ke URL tertentu, lalu *routing* akan mengarahkannya ke fungsi *view* yang bersesuaian. Di dalam *view*, Django menggunakan ORM untuk mengambil data portofolio dari *database* (berupa *QuerySet*). *QuerySet* tersebut kemudian dilempar ke fungsi *serializer* untuk diubah menjadi format JSON. Setelah selesai, *view* akan membungkus data JSON tersebut ke dalam `HttpResponse` dan mengirimkannya kembali ke pengguna.
 Proses *serialization* sangat perlu dilakukan karena data yang diambil dari *database* Django berbentuk objek Python (*QuerySet*). Jaringan internet (protokol HTTP) tidak mengerti cara membaca objek Python secara langsung; ia hanya bisa mentransmisikan data dalam bentuk teks (seperti JSON atau XML). Oleh karena itu, *serialization* berfungsi sebagai penerjemah objek kompleks Django menjadi teks terstruktur yang bisa dibaca dan dikirim melalui internet.
+
+### tugas 4
+### AI Disclosure
+
+Dalam pengerjaan Tugas 4 ini, saya menggunakan bantuan AI ChatGPT sebagai alat bantu untuk memahami konsep Authentication, Session, dan Cookies, mendapatkan masukan terkait implementasi serta struktur kode seperti pembuatan dan pengecekan grup Editor, penanganan error, proteksi CSRF, serta implementasi reusable component pada fitur star di modul Project dan Experience. Selain itu, AI juga membantu memahami perbedaan method GET dan POST, penjelasan mengenai fungsi parameter ?next saat proses login. Seluruh keputusan arsitektur, penulisan kode akhir, dan verifikasi fungsionalitas tetap diperiksa dan disesuaikan secara mandiri oleh saya.
+link chatgpt:https://chatgpt.com/share/6aba7d3d-6650-83ec-9aa8-488baab5f97e
