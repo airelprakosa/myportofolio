@@ -11,7 +11,9 @@
             <!-- Header section dengan tombol tambah -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                 <h2 style="margin-bottom: 0;">Projects</h2>
+                {% if user.is_superuser %}
                 <a href="{% url 'main:create_project' %}" class="button">Tambah Proyek Baru</a>
+                {% endif %}
             </div>
             
             <div class="projects-grid">
@@ -26,11 +28,17 @@
                     <p style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600; margin-bottom: 0;">
                         {% if project.is_completed %}✅ Selesai{% else %}⏳ Masih Berjalan{% endif %}
                     </p>
+
+                    <div style="margin-top: 1.5rem;">
+                        {% include "components/project_star.html" with project=project %}
+                    </div>
                     
                     <!-- Tombol Hapus & Pop-up Modal -->
+                     {% if user.is_superuser %}
                     <div class="project-actions" style="margin-top: 1.5rem;">
                         {% include "components/project_delete_modal.html" with project=project %}
                     </div>
+                    {% endif %}
                 </div>
                 {% empty %}
                 <!-- Muncul kalau belum ada proyek di database -->
