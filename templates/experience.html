@@ -7,7 +7,9 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                 <h2>Experience</h2>
                 <!-- Tombol Tambah Pengalaman -->
+                 {% if is_editor %}
                 <a href="{% url 'main:create_experience' %}" class="button">Tambah Pengalaman</a>
+                {% endif %}
             </div>
             
             <div class="skills-grid">
@@ -21,8 +23,11 @@
                     {% else %}
                         <p style="margin-top: 1.25rem; color: var(--text-muted); font-weight: 700; font-size: 0.85rem;">Completed</p>
                     {% endif %}
-
-                    <!-- Tombol Edit & Hapus -->
+                    <div style="margin-top: 1rem;">
+                        {% include "components/experience_star.html" with experience=experience %}
+                    </div>
+        
+                    {% if is_editor %}
                     <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem;">
                         <a href="{% url 'main:update_experience' experience.id %}" class="button" style="background-color: var(--secondary); color: var(--background);">Edit</a>
                         
@@ -31,6 +36,7 @@
                             <button type="submit" class="button button-danger" style="background-color: #ef4444; color: white;">Hapus</button>
                         </form>
                     </div>
+                    {% endif %}
                 </div>
                 {% empty %}
                 <p style="color: var(--text-muted);">Belum ada pengalaman yang ditambahkan.</p>
