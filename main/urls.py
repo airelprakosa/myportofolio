@@ -4,7 +4,7 @@ from main.views import (
     create_project, get_projects_json, delete_project,
     create_experience, update_experience, delete_experience, 
     get_experiences_json, get_experiences_xml, get_experiences_json_by_id, get_experiences_xml_by_id,
-    register, login_user, logout_user,toggle_star,toggle_star_experience,
+    register, login_user, logout_user,toggle_star,toggle_star_experience,create_project_ajax
 )
 
 app_name = 'main'
@@ -21,6 +21,7 @@ urlpatterns = [
     # routing project
     path('projects/', show_projects, name='show_projects'),
     path('projects/add/', create_project, name='create_project'),
+    path('projects/add-ajax/', create_project_ajax, name='create_project_ajax'),
     path('api/projects/', get_projects_json, name='get_projects_json'),
     path('projects/<int:project_id>/delete/', delete_project, name='delete_project'),
     
