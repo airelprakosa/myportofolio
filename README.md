@@ -56,3 +56,29 @@ Proses *serialization* sangat perlu dilakukan karena data yang diambil dari *dat
 
 Dalam pengerjaan Tugas 4 ini, saya menggunakan bantuan AI ChatGPT sebagai alat bantu untuk memahami konsep Authentication, Session, dan Cookies, mendapatkan masukan terkait implementasi serta struktur kode seperti pembuatan dan pengecekan grup Editor, penanganan error, proteksi CSRF, serta implementasi reusable component pada fitur star di modul Project dan Experience. Selain itu, AI juga membantu memahami perbedaan method GET dan POST, penjelasan mengenai fungsi parameter ?next saat proses login. Seluruh keputusan arsitektur, penulisan kode akhir, dan verifikasi fungsionalitas tetap diperiksa dan disesuaikan secara mandiri oleh saya.
 link chatgpt:https://chatgpt.com/share/6aba7d3d-6650-83ec-9aa8-488baab5f97e
+
+### Tugas 5
+
+1. Debouncing adalah teknik menunda eksekusi sebuah fungsi sampai pengguna berhenti memicu event selama jeda tertentu. Di halaman Experience, setiap ketikan di kolom pencarian membatalkan timer sebelumnya dengan `clearTimeout` lalu memasang timer baru 300 ms dengan `setTimeout`, sehingga `fetch()` baru dikirim setelah pengguna berhenti mengetik. Tanpa debouncing, mengetik "compfest" mengirim 8 permintaan ke server padahal hanya hasil terakhir yang dipakai. Itu membebani server dan database, dan respons yang datang tidak berurutan bisa membuat hasil lama menimpa hasil baru. Untuk kasus terakhir itu halaman ini juga memakai `AbortController` supaya permintaan lama dibatalkan.
+
+2. `fetch()` tidak langsung mengembalikan data, tetapi sebuah Promise karena permintaan jaringan butuh waktu. `await` menghentikan sementara fungsi `async` sampai Promise itu selesai lalu memberikan hasilnya (objek `Response`), tanpa membekukan halaman. Hal yang sama berlaku untuk `response.json()`. Jika `await` tidak dipakai, variabel `response` berisi Promise yang masih pending, sehingga `response.ok` bernilai `undefined` dan `response.json` bukan fungsi, dan kode berikutnya berjalan sebelum data tiba. Selain itu, error jaringan tidak tertangkap oleh `try...catch` karena penolakan Promise terjadi setelah blok tersebut selesai dijalankan.
+
+3. XSS (Cross-Site Scripting) adalah serangan ketika penyerang menyisipkan kode JavaScript ke dalam data, misalnya judul berisi `<img src="x" onerror="alert('XSS!')">`, lalu kode itu dijalankan di browser pengguna lain yang membuka halaman. Akibatnya penyerang bisa bertindak atas nama korban dengan memakai sesi login korban. Data yang ditampilkan lewat template Django lebih aman karena `{{ variabel }}` otomatis di-escape (karakter `<` menjadi `&lt;`). Perlindungan itu tidak ikut ketika data dikirim sebagai JSON lalu disusun menjadi HTML di JavaScript dengan `innerHTML`, karena browser menafsirkan string itu sebagai HTML apa adanya. Karena itu di halaman Experience setiap nilai teks dibungkus `escapeHtml()` sebelum disisipkan, dan di sisi server input dibersihkan dengan `strip_tags` pada method `clean_title` dan `clean_description` di `ExperienceForm` sebagai lapisan tambahan.
+
+**Fitur tambahan di luar instruksi Tugas 5 (halaman Experience):**
+
+- Star tanpa reload: tombol star mengirim `fetch()` ke `experience/<id>/star-ajax/`, lalu hanya tombol itu yang diperbarui dan toast muncul. Pengunjung yang belum login tetap diarahkan ke halaman login.
+- Filter jenis pengalaman: dropdown yang bisa digabung dengan pencarian judul, lewat parameter `?category=` di `/api/experiences/`.
+- Jumlah hasil ("Menampilkan N pengalaman") dan tombol "Coba lagi" saat data gagal dimuat.
+
+### AI Disclosure
+
+### AI Disclosure
+Dalam proses pembelajaran dan pengerjaan Tugas 5 ini, saya memanfaatkan bantuan kecerdasan buatan (AI) yaitu GPT sebagai diskusi interaktif untuk:
+- Berdiskusi dan memahami konsep teoretis serta alur kerja materi Tutorial 5, seperti mekanisme asinkron `fetch()` dan *Promise*, teknik *search debouncing* (`setTimeout`/`clearTimeout`), serta penggunaan `AbortController`.
+- Mempelajari prinsip keamanan web secara konseptual, khususnya mitigasi kerentanan XSS (*Cross-Site Scripting*) baik di sisi *frontend* (`escapeHtml`) maupun *backend* (`strip_tags`).
+- Membahas alur integrasi AJAX dengan Django views, penanganan *state* aplikasi (*loading*, *error*, *empty*), serta penyusunan logika pengujian unit (*unit testing*).
+
+Seluruh pemahaman konsep yang didapat dari sesi diskusi interaktif tersebut kemudian saya terapkan, kembangkan, dan sesuaikan secara mandiri ke dalam struktur kode program pada proyek portofolio pribadi saya.
+
+log percakapan: https://chatgpt.com/share/6ac3b03a-dd2c-83ec-8042-83bbb45c3174
