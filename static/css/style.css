@@ -644,7 +644,7 @@ h1, .brand {
     align-items: center;
     gap: 0.4rem;
     background: var(--ink, #333);
-    color: #fff;
+    color: var(--paper, #fff);
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 4px;
@@ -652,6 +652,7 @@ h1, .brand {
 }
 .button-star.is-starred {
     background: var(--accent, #e06c75);
+    color: #fff;
 }
 .star-count {
     padding: 0.05rem 0.4rem;
@@ -761,4 +762,16 @@ h1, .brand {
     font-size: 1.8rem;
     line-height: 1;
     cursor: pointer;
+}
+/* Popover memakai warna teks bawaan browser, jadi warna teks modal diset ulang di sini */
+.project-form-modal {
+    color: var(--ink);
+}
+.form-group select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.7rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    font: inherit;
 }
