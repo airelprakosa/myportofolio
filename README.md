@@ -65,7 +65,7 @@ link chatgpt:https://chatgpt.com/share/6aba7d3d-6650-83ec-9aa8-488baab5f97e
 
 3. XSS (Cross-Site Scripting) adalah serangan ketika penyerang menyisipkan kode JavaScript ke dalam data, misalnya judul berisi `<img src="x" onerror="alert('XSS!')">`, lalu kode itu dijalankan di browser pengguna lain yang membuka halaman. Akibatnya penyerang bisa bertindak atas nama korban dengan memakai sesi login korban. Data yang ditampilkan lewat template Django lebih aman karena `{{ variabel }}` otomatis di-escape (karakter `<` menjadi `&lt;`). Perlindungan itu tidak ikut ketika data dikirim sebagai JSON lalu disusun menjadi HTML di JavaScript dengan `innerHTML`, karena browser menafsirkan string itu sebagai HTML apa adanya. Karena itu di halaman Experience setiap nilai teks dibungkus `escapeHtml()` sebelum disisipkan, dan di sisi server input dibersihkan dengan `strip_tags` pada method `clean_title` dan `clean_description` di `ExperienceForm` sebagai lapisan tambahan.
 
-**Fitur tambahan di luar instruksi Tugas 5 (halaman Experience):**
+### Fitur tambahan di luar instruksi Tugas 5 (halaman Experience):
 
 - Star tanpa reload: tombol star mengirim `fetch()` ke `experience/<id>/star-ajax/`, lalu hanya tombol itu yang diperbarui dan toast muncul. Pengunjung yang belum login tetap diarahkan ke halaman login.
 - Filter jenis pengalaman: dropdown yang bisa digabung dengan pencarian judul, lewat parameter `?category=` di `/api/experiences/`.
@@ -73,7 +73,6 @@ link chatgpt:https://chatgpt.com/share/6aba7d3d-6650-83ec-9aa8-488baab5f97e
 
 ### AI Disclosure
 
-### AI Disclosure
 Dalam proses pembelajaran dan pengerjaan Tugas 5 ini, saya memanfaatkan bantuan kecerdasan buatan (AI) yaitu GPT sebagai diskusi interaktif untuk:
 - Berdiskusi dan memahami konsep teoretis serta alur kerja materi Tutorial 5, seperti mekanisme asinkron `fetch()` dan *Promise*, teknik *search debouncing* (`setTimeout`/`clearTimeout`), serta penggunaan `AbortController`.
 - Mempelajari prinsip keamanan web secara konseptual, khususnya mitigasi kerentanan XSS (*Cross-Site Scripting*) baik di sisi *frontend* (`escapeHtml`) maupun *backend* (`strip_tags`).
