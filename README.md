@@ -81,3 +81,53 @@ Dalam proses pembelajaran dan pengerjaan Tugas 5 ini, saya memanfaatkan bantuan 
 Seluruh pemahaman konsep yang didapat dari sesi diskusi interaktif tersebut kemudian saya terapkan, kembangkan, dan sesuaikan secara mandiri ke dalam struktur kode program pada proyek portofolio pribadi saya.
 
 log percakapan: https://chatgpt.com/share/6ac3b03a-dd2c-83ec-8042-83bbb45c3174
+
+### Tugas 6
+
+1. REST (*Representational State Transfer*) adalah gaya arsitektur untuk merancang API di atas HTTP. Data diperlakukan sebagai *resource* yang punya alamat sendiri (misalnya `/api/v1/experiences/` untuk kumpulan pengalaman dan `/api/v1/experiences/<id>/` untuk satu pengalaman), lalu operasinya dinyatakan lewat method HTTP yang sesuai artinya: `GET` membaca, `POST` membuat, `PUT`/`PATCH` mengubah, dan `DELETE` menghapus. Server juga harus membalas dengan status HTTP yang tepat (201 saat data dibuat, 400 untuk input tidak valid, 403 untuk tindakan yang ditolak, 404 untuk data yang tidak ada, 204 setelah data dihapus) dan bersifat *stateless*, artinya setiap permintaan membawa sendiri informasi yang diperlukan. Mengembalikan JSON saja belum cukup karena JSON hanya format datanya. Endpoint seperti `GET /hapus-experience/?id=1` yang menghapus data lalu membalas `{"status": "ok"}` dengan kode 200 tetap mengembalikan JSON, tetapi melanggar arti method dan status HTTP, sehingga tidak bisa disebut RESTful.
+   `PUT` mengganti seluruh *resource*, jadi semua field wajib dikirim. Contohnya di API saya, `PUT` yang hanya berisi `title` ditolak dengan 400 karena `description` dan `category` tidak ada. `PUT` cocok dipakai saat seluruh isi data memang dikirim ulang dari form lengkap. `PATCH` hanya mengubah field yang dikirim dan membiarkan field lain apa adanya. `PATCH` cocok untuk perubahan sebagian, misalnya Editor hanya membetulkan judul pengalaman, dan inilah yang dipakai modal edit di halaman Experience saya.
+
+2. *Serializer* pada DRF bertugas di dua arah. Saat membaca, ia mengubah objek model (misalnya `Experience`) menjadi data yang siap dikirim sebagai JSON. Saat menulis, ia memeriksa dan membersihkan data masuk sebelum disimpan ke database. Di `ExperienceSerializer`, daftar `fields` ditulis eksplisit sehingga hanya field yang dipilih yang keluar, validasi teks dilakukan di `validate_title` dan `validate_description` (termasuk `strip_tags`), dan informasi star (`star_count`, `is_starred`, `starred_by_names`) dibuat sebagai field hasil perhitungan yang *read-only* sehingga tidak bisa dipalsukan oleh klien. Keuntungannya dibandingkan merakit *dictionary* manual dengan `JsonResponse` seperti di Tutorial 05: aturan validasi dari model (pilihan `category`, format URL `thumbnail`, panjang maksimal) ikut berlaku otomatis, error validasi selalu keluar dalam format yang konsisten (`{"field": ["pesan"]}`) dengan status 400, satu kelas yang sama dipakai untuk membaca, membuat, dan mengubah data, dan risiko data sensitif ikut terbawa (misalnya id atau email user) jauh lebih kecil karena field yang keluar sudah ditentukan di satu tempat. Pada cara manual, semua hal itu harus ditulis ulang di setiap view.
+
+3. Autentikasi menjawab pertanyaan "siapa yang mengirim permintaan ini?", sedangkan otorisasi menjawab "apakah dia boleh melakukan tindakan ini?". Di DRF, autentikasi ditangani oleh *authentication class*. Proyek saya memakai `SessionAuthentication`, yang membaca cookie sesi login lalu mengisi `request.user`. Otorisasi ditangani oleh *permission class* yang memeriksa `request.user` dan method permintaan: `IsPortfolioOwnerOrEditorOrReadOnly` pada endpoint daftar dan detail (pengunjung hanya membaca, Editor boleh `PUT`/`PATCH`, pemilik boleh semuanya) dan `IsAuthenticated` pada endpoint star. Hak akses harus diperiksa di server karena menyembunyikan tombol di template hanya mengubah tampilan. Siapa pun tetap bisa mengirim permintaan langsung ke API lewat `fetch()` di console browser, Postman, atau `curl` tanpa pernah melihat tombolnya. Hal ini saya buktikan di test: pengguna biasa yang mengirim `PATCH` dan Editor yang mengirim `DELETE` langsung ke API tetap ditolak dengan 403, dan isi database tidak berubah.
+
+4. `SessionAuthentication` mengandalkan cookie sesi, dan browser selalu ikut mengirim cookie itu ke situs kita secara otomatis, termasuk ketika permintaannya dipicu dari situs lain. Tanpa token CSRF, situs jahat bisa membuat browser korban yang sedang login mengirim `DELETE` atau `PATCH` ke API kita, dan server akan mengira permintaan itu sah. Karena itu DRF tetap mewajibkan token CSRF untuk permintaan yang mengubah data pada `SessionAuthentication`. Token disimpan di cookie `csrftoken` dan harus dikirim ulang lewat header `X-CSRFToken`. Situs lain tidak bisa membaca cookie milik domain kita, sehingga tidak bisa memasang header tersebut. Test yang memakai `force_authenticate` tidak cukup untuk membuktikan perlindungan ini, karena `force_authenticate` melewati proses autentikasi sepenuhnya: pemeriksaan CSRF yang berada di dalam `SessionAuthentication` tidak pernah dijalankan, dan `APIClient` biasa juga mematikan pengecekan CSRF secara bawaan. Karena itu saya menulis test dengan `APIClient(enforce_csrf_checks=True)` dan `.login()`, yang membuktikan bahwa `PATCH` dan star tanpa token ditolak dengan 403, sementara permintaan yang membawa token yang benar berhasil.
+
+### Progres Tugas 6
+
+- Menambahkan API untuk bagian Experience di bawah prefix yang sama dengan Tutorial 07:
+  - `GET`, `POST` `/api/v1/experiences/` (daftar, pencarian `?title=`, filter `?category=`, tambah data)
+  - `GET`, `PUT`, `PATCH`, `DELETE` `/api/v1/experiences/<id>/`
+  - `POST` `/api/v1/experiences/<id>/star/`
+- `ExperienceSerializer` di `main/serializers.py` dengan field star yang *read-only* dan validasi `strip_tags`.
+- Hak akses empat peran Tugas 4 diterapkan lewat `IsPortfolioOwnerOrEditorOrReadOnly`: pengunjung hanya membaca, pengguna biasa bisa memberi star, Editor bisa mengubah tetapi tidak bisa membuat atau menghapus, dan pemilik bisa semuanya.
+- Halaman Experience sekarang menampilkan, mencari, memfilter, menambah, memberi star, mengedit, dan menghapus data lewat API baru tanpa *reload*. Error 400 dan 403 dari API ditampilkan lewat toast.
+- 19 test baru di `main/tests_api.py` untuk setiap peran, validasi input, star, data yang tidak ditemukan, dan CSRF. Total test proyek menjadi 56.
+
+Cara menjalankan dan menguji:
+
+```
+pip install -r requirements.txt
+python manage.py collectstatic --noinput
+python manage.py test main
+python manage.py runserver
+```
+
+Browsable API untuk bagian ini dapat dibuka di `http://127.0.0.1:8000/api/v1/experiences/`.
+
+### Fitur tambahan di luar instruksi Tugas 6 (halaman Experience):
+
+- Modal edit yang otomatis terisi data lama, sehingga Editor tidak perlu mengetik ulang semua field.
+- Pesan error validasi tampil di toast sekaligus tepat di bawah field yang bermasalah.
+- Star, edit, dan hapus hanya memperbarui kartu yang bersangkutan tanpa memuat ulang seluruh daftar, dan jumlah "Menampilkan N pengalaman" ikut menyesuaikan.
+- Pengunjung yang belum login melihat tombol "Login untuk star" yang mengarah ke halaman login, bukan tombol yang pasti ditolak API.
+- Data star di-*prefetch* (`prefetch_related`) sehingga jumlah query tidak bertambah untuk setiap kartu.
+
+### AI Disclosure
+
+Dalam proses pembelajaran dan pengerjaan Tugas 6 ini, saya memanfaatkan bantuan kecerdasan buatan (AI) yaitu Chatgpt, sebagai diskusi interaktif untuk:
+- Mempelajari konsep teoretis materi Tutorial 7 dengan membangun API latihan sederhana untuk model `Note` dari nol, dengan ChatGPT berperan sebagai tutor yang hanya menjelaskan konsep, memberi tugas kecil, dan mengoreksi kode yang saya tulis sendiri tanpa membaca kode proyek ini. Materi yang dipelajari meliputi prinsip REST, perbedaan `PUT` dan `PATCH`, *serializer* dengan *field* hasil perhitungan yang *read-only* dan validasi `validate_<field>`, API view berbasis `@api_view`, autentikasi dan otorisasi dengan *permission class*, perlindungan CSRF, serta pengujian dengan `APITestCase`.
+
+Seluruh pemahaman konsep yang didapat dari sesi diskusi interaktif tersebut kemudian saya terapkan, kembangkan, dan sesuaikan secara mandiri ke dalam struktur kode program pada proyek portofolio pribadi saya.
+
+log percakapan: https://chatgpt.com/share/6af18a0e-a144-83ec-96b2-f35829e64f7e
