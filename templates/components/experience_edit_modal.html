@@ -1,0 +1,54 @@
+{# Modal edit pengalaman (Tugas 6). Dipakai oleh Editor dan pemilik portofolio; datanya dikirim lewat PATCH ke API. #}
+<div id="edit-experience-modal"
+     class="project-form-modal"
+     popover="auto"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="edit-experience-modal-title">
+    <button type="button"
+            class="project-form-modal_backdrop"
+            popovertarget="edit-experience-modal"
+            popovertargetaction="hide"
+            aria-label="Tutup form edit pengalaman"></button>
+    <div class="project-form-modal_content">
+        <button type="button"
+                class="project-form-modal_close"
+                popovertarget="edit-experience-modal"
+                popovertargetaction="hide"
+                aria-label="Tutup form edit pengalaman">x</button>
+        <h2 id="edit-experience-modal-title">Edit Pengalaman</h2>
+        <form id="edit-experience-form" class="project-form" novalidate>
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label for="edit-title" style="display: block; margin-bottom: 0.3rem; font-weight: 600;">Posisi / Peran</label>
+                <input type="text" id="edit-title" name="title" maxlength="255" required>
+                <p class="form-error" data-error-for="title" style="color: #b42318; font-size: 0.8rem; margin-top: 0.2rem;"></p>
+            </div>
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label for="edit-description" style="display: block; margin-bottom: 0.3rem; font-weight: 600;">Deskripsi Pengalaman</label>
+                <textarea id="edit-description" name="description" rows="3" required></textarea>
+                <p class="form-error" data-error-for="description" style="color: #b42318; font-size: 0.8rem; margin-top: 0.2rem;"></p>
+            </div>
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label for="edit-category" style="display: block; margin-bottom: 0.3rem; font-weight: 600;">Jenis Pengalaman</label>
+                <select id="edit-category" name="category" class="form-select">
+                    {% for value, label in category_choices %}
+                    <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <p class="form-error" data-error-for="category" style="color: #b42318; font-size: 0.8rem; margin-top: 0.2rem;"></p>
+            </div>
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label for="edit-thumbnail" style="display: block; margin-bottom: 0.3rem; font-weight: 600;">URL Thumbnail (Opsional)</label>
+                <input type="url" id="edit-thumbnail" name="thumbnail" placeholder="Contoh: https://drive.google.com/...">
+                <p class="form-error" data-error-for="thumbnail" style="color: #b42318; font-size: 0.8rem; margin-top: 0.2rem;"></p>
+            </div>
+            <div class="project-form-modal_actions" style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+                <button type="button"
+                        class="button button-secondary"
+                        popovertarget="edit-experience-modal"
+                        popovertargetaction="hide">Batal</button>
+                <button type="submit" class="button">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
